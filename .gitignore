@@ -1,0 +1,41 @@
+# Python virtual environment
+venv/
+env/
+.venv/
+
+# Environment variables / secrets
+.env
+*.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Flask instance data / local database
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded files
+Complete/backend/uploads/
+
+# Node.js
+node_modules/
+
+# Build files
+dist/
+build/
+
+# IDE / editor files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

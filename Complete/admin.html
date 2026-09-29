@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Dashboard | Cheptulel Boys Senior School</title>
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+
+  <style>
+    .auth-screen {
+      position: fixed;
+      inset: 0;
+      background: #eaf4fb;
+      display: grid;
+      place-items: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+
+    .auth-box {
+      background: #ffffff;
+      width: min(420px, 92vw);
+      padding: 32px;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px #102a4330;
+    }
+
+    .auth-box h1 {
+      margin: 0 0 8px;
+      color: #102a43;
+      font-size: 1.6rem;
+    }
+
+    .auth-box p {
+      color: #61758a;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .auth-box input {
+      width: 100%;
+      padding: 13px;
+      margin: 7px 0;
+      border: 1px solid #cbd8e5;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font: inherit;
+    }
+
+    .auth-box input:focus {
+      outline: 3px solid #b8d8f0;
+      border-color: #1d4f91;
+    }
+
+    .auth-box button {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .auth-error {
+      color: #9b1c31;
+      margin-top: 12px;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .system-note {
+      border-left: 4px solid #1d4f91;
+    }
+
+    .system-note h2 {
+      color: #102a43;
+    }
+
+    .system-note p {
+      line-height: 1.7;
+    }
+
+    .hint {
+      color: #61758a;
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+
+<body class="admin-body">
+
+  <!-- Administrator Login -->
+  <div id="authScreen" class="auth-screen">
+    <form class="auth-box" id="loginForm">
+      <h1>School Administration</h1>
+
+      <p>
+        Sign in to manage school news, development projects, gallery photos,
+        partnerships and official school information.
+      </p>
+
+      <label for="loginEmail">Administrator email</label>
+      <input
+        id="loginEmail"
+        name="email"
+        type="email"
+        placeholder="Administrator email"
+        autocomplete="username"
+        required
+      >
+
+      <label for="loginPassword">Password</label>
+      <input
+        id="loginPassword"
+        name="password"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button class="btn btn-primary" type="submit">
+        Sign in securely
+      </button>
+
+      <div
+        id="authError"
+        class="auth-error"
+        role="alert"
+        aria-live="polite"
+      ></div>
+    </form>
+  </div>
+
+  <!-- Administration Header -->
+  <header class="admin-top">
+    <div class="admin-brand">
+      <img
+        src="assets/cheptulel-logo.jpeg"
+        alt="Cheptulel Boys Senior School logo"
+      >
+
+      <div>
+        <strong>CHEPTULEL</strong>
+        <small>BOYS SENIOR SCHOOL</small>
+      </div>
+    </div>
+
+    <div class="admin-actions">
+      <a href="index.html" class="admin-home">
+        ← View Website
+      </a>
+
+      <button id="exportData" class="top-btn" type="button">
+        Backup Data
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Administration Layout -->
+  <main class="admin-layout">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" aria-label="Administration navigation">
+
+      <button
+        class="side active"
+        data-panel="dashboard"
+        type="button"
+      >
+        Dashboard
+      </button>
+
+      <button
+        class="side"
+        data-panel="projects"
+        type="button"
+      >
+        Development Projects
+      </button>
+
+      <button
+        class="side"
+        data-panel="news"
+        type="button"
+      >
+        News &amp; Updates
+      </button>
+
+      <button
+        class="side"
+        data-panel="gallery"
+        type="button"
+      >
+        Gallery
+      </button>
+
+      <button
+        class="side"
+        data-panel="sponsors"
+        type="button"
+      >
+        Sponsors &amp; Partners
+      </button>
+
+      <button
+        class="side"
+        data-panel="enquiries"
+        type="button"
+      >
+        Support Enquiries
+      </button>
+
+      <button
+        class="side"
+        data-panel="settings"
+        type="button"
+      >
+        School Settings
+      </button>
+
+    </aside>
+
+    <!-- Administration Content -->
+    <section class="admin-content">
+
+      <!-- Dashboard Panel -->
+      <div id="dashboard" class="panel active">
+
+        <div class="panel-title">
+          <div>
+            <span>ADMINISTRATION</span>
+            <h1>School Dashboard</h1>
+          </div>
+
+          <span class="demo-badge">
+            SCHOOL CMS
+          </span>
+        </div>
+
+        <div class="admin-card">
+          <h2>Welcome to the School Management System</h2>
+
+          <p>
+            Use this dashboard to manage Cheptulel Boys Senior School's
+            development projects, news, gallery, partnerships, support
+            enquiries and official contact information.
+          </p>
+        </div>
+
+        <!-- Dashboard Statistics -->
+        <div class="stat-grid">
+
+          <div class="admin-stat">
+            <small>Development Projects</small>
+            <strong id="statProjects">0</strong>
+          </div>
+
+          <div class="admin-stat">
+            <small>News Posts</small>
+            <strong id="statNews">0</strong>
+          </div>
+
+          <div class="admin-stat">
+            <small>Gallery Photos</small>
+            <strong id="statGallery">0</strong>
+          </div>
+
+          <div class="admin-stat">
+            <small>Partners</small>
+            <strong id="statSponsors">0</strong>
+          </div>
+
+          <div class="admin-stat">
+            <small>Support Enquiries</small>
+            <strong id="statEnquiries">0</strong>
+          </div>
+
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="admin-card">
+          <h2>Quick Actions</h2>
+
+          <div class="quick-admin">
+
+            <button type="button" data-go="projects">
+              + Add Development Project
+            </button>
+
+            <button type="button" data-go="news">
+              + Publish News
+            </button>
+
+            <button type="button" data-go="gallery">
+              + Upload School Photo
+            </button>
+
+            <button type="button" data-go="sponsors">
+              + Add Partner
+            </button>
+
+            <button type="button" data-go="enquiries">
+              View Support Enquiries
+            </button>
+
+          </div>
+        </div>
+
+        <!-- System Information -->
+        <div class="admin-card notice system-note">
+          <h2>System Information</h2>
+
+          <p>
+            This school content management system supports development project
+            records, project funding and progress updates, school news,
+            gallery uploads, sponsor and partner information, support
+            enquiries, school settings and JSON data backup.
+          </p>
+
+          <p>
+            Before publishing the system for public use, ensure that the
+            backend is connected to a secure production database, administrator
+            passwords are protected, uploaded files are validated and the
+            website is served through HTTPS.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Development Projects Panel -->
+      <div id="projects" class="panel">
+
+        <div class="panel-title">
+          <div>
+            <span>DEVELOPMENT</span>
+            <h1>Development Projects</h1>
+          </div>
+        </div>
+
+        <form class="admin-form" id="projectForm">
+
+          <input
+            name="name"
+            required
+            placeholder="Project name"
+          >
+
+          <select name="category">
+            <option>Infrastructure</option>
+            <option>ICT</option>
+            <option>Learning Resources</option>
+            <option>Student Welfare</option>
+            <option>Sports &amp; Talent</option>
+            <option>Other</option>
+          </select>
+
+          <select name="status">
+            <option>Proposed</option>
+            <option>Seeking Support</option>
+            <option>Ongoing</option>
+            <option>Completed</option>
+          </select>
+
+          <input
+            name="target"
+            type="number"
+            min="0"
+            placeholder="Target amount (KES)"
+          >
+
+          <input
+            name="raised"
+            type="number"
+            min="0"
+            placeholder="Amount raised (KES)"
+          >
+
+          <label for="projectImage">
+            Project image
+          </label>
+
+          <input
+            id="projectImage"
+            name="image"
+            type="file"
+            accept=".jpg,.jpeg,.png,.webp,.jfif,image/jpeg,image/png,image/webp"
+          >
+
+          <textarea
+            name="description"
+            required
+            placeholder="Project description"
+          ></textarea>
+
+          <textarea
+            name="update"
+            placeholder="Latest progress or update"
+          ></textarea>
+
+          <button class="btn btn-primary" type="submit">
+            Add Project
+          </button>
+
+        </form>
+
+        <div id="projectList" class="admin-list"></div>
+
+      </div>
+
+      <!-- News Panel -->
+      <div id="news" class="panel">
+
+        <div class="panel-title">
+          <div>
+            <span>COMMUNICATION</span>
+            <h1>News &amp; Updates</h1>
+          </div>
+        </div>
+
+        <form class="admin-form" id="newsForm">
+
+          <input
+            name="title"
+            required
+            placeholder="News title"
+          >
+
+          <select name="category">
+            <option>School News</option>
+            <option>Development</option>
+            <option>Academics</option>
+            <option>Sports</option>
+            <option>Announcement</option>
+          </select>
+
+          <textarea
+            name="body"
+            required
+            placeholder="Write the update..."
+          ></textarea>
+
+          <button class="btn btn-primary" type="submit">
+            Publish News
+          </button>
+
+        </form>
+
+        <div id="newsList" class="admin-list"></div>
+
+      </div>
+
+      <!-- Gallery Panel -->
+      <div id="gallery" class="panel">
+
+        <div class="panel-title">
+          <div>
+            <span>MEDIA</span>
+            <h1>Gallery Manager</h1>
+          </div>
+        </div>
+
+        <form class="admin-form" id="galleryForm">
+
+          <input
+            name="title"
+            required
+            placeholder="Photo title"
+          >
+
+          <select name="category">
+            <option>School Life</option>
+            <option>Infrastructure</option>
+            <option>Projects</option>
+            <option>Academics</option>
+            <option>Sports</option>
+            <option>Events</option>
+            <option>Achievements</option>
+          </select>
+
+          <label for="galleryImage">
+            Select school photo
+          </label>
+
+          <input
+            id="galleryImage"
+            name="image"
+            type="file"
+            accept=".jpg,.jpeg,.png,.webp,.jfif,image/jpeg,image/png,image/webp"
+            required
+          >
+
+          <textarea
+            name="caption"
+            placeholder="Caption or description"
+          ></textarea>
+
+          <label class="check">
+            <input
+              name="approved"
+              type="checkbox"
+            >
+            Publish immediately
+          </label>
+
+          <button class="btn btn-primary" type="submit">
+            Upload Photo
+          </button>
+
+        </form>
+
+        <p class="hint">
+          Upload clear and relevant school photos. For managed cloud image
+          storage, configure Cloudinary in the backend <code>.env</code> file.
+        </p>
+
+        <div
+          id="galleryList"
+          class="admin-list gallery-admin"
+        ></div>
+
+      </div>
+
+      <!-- Sponsors and Partners Panel -->
+      <div id="sponsors" class="panel">
+
+        <div class="panel-title">
+          <div>
+            <span>PARTNERSHIPS</span>
+            <h1>Sponsors &amp; Partners</h1>
+          </div>
+        </div>
+
+        <form class="admin-form" id="sponsorForm">
+
+          <input
+            name="name"
+            required
+            placeholder="Organization or sponsor name"
+          >
+
+          <input
+            name="type"
+            placeholder="Partnership type"
+          >
+
+          <input
+            name="website"
+            type="url"
+            placeholder="Website URL"
+          >
+
+          <textarea
+            name="description"
+            placeholder="Short description"
+          ></textarea>
+
+          <button class="btn btn-primary" type="submit">
+            Add Partner
+          </button>
+
+        </form>
+
+        <div id="sponsorList" class="admin-list"></div>
+
+      </div>
+
+      <!-- Enquiries Panel -->
+      <div id="enquiries" class="panel">
+
+        <div class="panel-title">
+          <div>
+            <span>COMMUNITY SUPPORT</span>
+            <h1>Sponsor &amp; Well-wisher Enquiries</h1>
+          </div>
+        </div>
+
+        <div class="admin-card notice">
+          <p>
+            Support enquiries submitted through the public website are
+            displayed here. Protect personal information and avoid sharing
+            enquiry details with unauthorized people.
+          </p>
+
+          <p>
+            For a fully secure multi-user system, connect this feature to a
+            protected backend database and an official school email or CRM
+            service.
+          </p>
+        </div>
+
+        <div id="enquiryList" class="admin-list"></div>
+
+      </div>
+
+      <!-- School Settings Panel -->
+      <div id="settings" class="panel">
+
+        <div class="panel-title">
+          <div>
+            <span>CONFIGURATION</span>
+            <h1>School Settings</h1>
+          </div>
+        </div>
+
+        <form class="admin-form" id="settingsForm">
+
+          <label for="schoolPhone">
+            Official school phone
+          </label>
+
+          <input
+            id="schoolPhone"
+            name="phone"
+            type="tel"
+            placeholder="Official school phone"
+          >
+
+          <label for="schoolEmail">
+            Official school email
+          </label>
+
+          <input
+            id="schoolEmail"
+            name="email"
+            type="email"
+            placeholder="Official school email"
+          >
+
+          <label for="schoolPaybill">
+            Verified M-PESA Paybill or Till
+          </label>
+
+          <input
+            id="schoolPaybill"
+            name="paybill"
+            placeholder="Verified M-PESA Paybill/Till"
+          >
+
+          <label for="schoolFacebook">
+            Facebook page URL
+          </label>
+
+          <input
+            id="schoolFacebook"
+            name="facebook"
+            type="url"
+            placeholder="Facebook page URL"
+          >
+
+          <label for="schoolWhatsapp">
+            WhatsApp URL
+          </label>
+
+          <input
+            id="schoolWhatsapp"
+            name="whatsapp"
+            type="url"
+            placeholder="WhatsApp URL"
+          >
+
+          <button class="btn btn-primary" type="submit">
+            Save Settings
+          </button>
+
+        </form>
+
+        <p class="hint">
+          Only publish verified official school contacts and payment details.
+          Empty fields should remain hidden on the public website.
+        </p>
+
+        <div class="admin-card">
+          <h2>Account</h2>
+
+          <button
+            id="logout"
+            class="delete"
+            type="button"
+          >
+            Sign out
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Notifications -->
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
